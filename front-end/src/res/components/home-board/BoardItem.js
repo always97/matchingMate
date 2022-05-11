@@ -8,7 +8,7 @@ import View from "../../img/view.png";
 const BoardItem = (props) => {
 
   const { board } = props;
-
+  // git junwoo 3 !! 
   return (
     <>
       <Col xl="3" lg="6" md="6" sm="6" className='board-item'>
