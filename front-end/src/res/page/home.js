@@ -16,7 +16,7 @@ function Home() {
 
   const getPopularBoards = async (lat, lng) => {
     // const res = await (await axiosGet("/popular")).data;
-    const res = await (await axios.get(`http://localhost:8050/recent?lat=${lat}&lng=${lng}`)).data;
+    const res = await (await axios.get(`http://localhost:8050/popular?lat=${lat}&lng=${lng}`)).data;
     setBoards(res.data);
   };
 

@@ -86,7 +86,7 @@ const BoardDetail = () => {
 
             <div className={styles.contentBox}>
 
-              <p>{board.postContents}</p>
+              <p>내용~~~~~~~~~~~~</p>
             </div>
             <div className={styles.chatBtnBox}>
               <Link to='/chatting' ><Button>채팅방 참여하기</Button></Link>

@@ -17,11 +17,11 @@ import AdminCategoryView from "./res/page/admin/adminCategoryView";
 import AdminBadgeAdd from "./res/page/admin/adminBadgeAdd";
 import AdminBadgeModify from "./res/page/admin/adminBadgeModify";
 import AdminBadgeView from "./res/page/admin/adminBadgeView";
-import MatchProfile from './res/page/matchProfile/matchProfile';
-import MemberProfile from './res/page/memberProfile/memberProfile';
+import MatchProfile from "./res/page/matchProfile/matchProfile";
+import MemberProfile from "./res/page/memberProfile/memberProfile";
 import BoardDetail from './res/page/BoardDetail/BoardDetail';
 
-function App() {
+export default function App() {
   const member = {
     name: "홍길동",
     nickname: "NickNAME",
@@ -39,54 +39,47 @@ function App() {
           <Route path="/chatting/list" element={<ChattingList />} />
           <Route path="/chatting" element={<Chat />} />
           <Route path="/post/:id" element={<BoardDetail />} />
-
           <Route
             path="/admin/post/management"
             element={<AdminPostManagement />}
-            exact
           ></Route>
 
           <Route
             path="/admin/report/management"
             element={<AdminReportManagement />}
-            exact
           ></Route>
 
           <Route
             path="/admin/category/add"
             element={<AdminCategoryAdd />}
-            exact
           ></Route>
           <Route
             path="/admin/category/modify"
             element={<AdminCategoryModify />}
-            exact
           ></Route>
           <Route
             path="/admin/category/view"
             element={<AdminCategoryView />}
-            exact
           ></Route>
           <Route
             path="/admin/badge/add"
             element={<AdminBadgeAdd />}
-            exact
           ></Route>
           <Route
             path="/admin/badge/modify"
             element={<AdminBadgeModify />}
-            exact
           ></Route>
           <Route
             path="/admin/badge/view"
             element={<AdminBadgeView />}
-            exact
           ></Route>
-          <Route path="/match" element={<MatchProfile member={member} exact />} />
+          <Route
+            path="/match"
+            element={<MatchProfile member={member} />}
+          />
           <Route
             path="/admin/badge/view"
             element={<AdminBadgeView />}
-            exact
           ></Route>
           <Route path="/member" element={<MemberProfile member={member} />} />
         </Routes>
@@ -94,5 +87,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

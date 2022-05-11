@@ -5,19 +5,15 @@ import ProfileComponent from "./Profile";
 import "../../css/nav/navAdmin.css";
 import Bars from "../../img/bars-solid.png";
 import NavLeftSide from "./NavLeftSide";
-
-const showLeft = (event) => {
-  event.preventDefault();
-  const leftside = document.querySelector(".nav-left-side");
-  leftside.classList.toggle("active");
-};
+import { logout } from "../logout/Logout";
+import { showLeft, showLoginBtn } from "./Nav";
+import { toggle } from "../toggle/Toggle";
+import { isLogin } from "../login/Login";
 
 const toggleAdminActive = (event) => {
   event.preventDefault();
-  const adminLeftside = document.querySelector(".admin-left-side");
-  const adminRightside = document.querySelector(".admin-right-side");
-  adminLeftside.classList.toggle("active");
-  adminRightside.classList.toggle("active");
+  toggle(".admin-left-side");
+  toggle(".admin-right-side");
 };
 
 const disableActiveOver1024px = (event) => {
@@ -30,14 +26,22 @@ const disableActiveOver1024px = (event) => {
     adminLeftside.classList.contains("active") &&
     adminRightside.classList.contains("active")
   ) {
-    adminLeftside.classList.toggle("active");
-    adminRightside.classList.toggle("active");
+    toggle(".admin-left-side");
+    toggle(".admin-right-side");
   }
 };
 
 export default function NavAdmin() {
   useEffect(() => {
     window.addEventListener("resize", disableActiveOver1024px);
+    showLoginBtn();
+
+    if (isLogin()) {
+      document.querySelector(".nav-admin-menus").style.display = "block";
+    } else {
+      document.querySelector(".nav-admin-menus").style.display = "none";
+    } //미로그인시에는 관리자메뉴 안보이게
+
     return () => {
       window.removeEventListener("resize", disableActiveOver1024px);
     };
@@ -55,6 +59,9 @@ export default function NavAdmin() {
           <Link to="/login" className="login">
             <p>로그인</p>
           </Link>
+          <p className="logout-1024px" onClick={logout}>
+            로그아웃
+          </p>
           <ProfileComponent></ProfileComponent>
           <p className="nav-admin-menus" onClick={toggleAdminActive}>
             관리자 메뉴

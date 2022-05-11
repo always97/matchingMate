@@ -41,7 +41,6 @@
 .board .new:hover {
   box-sizing: border-box;
   border-bottom: 3px solid #42c2ff;
-  transform: scale(1.02);
 }
 
 .board .hot {
@@ -51,8 +50,6 @@
 .board .hot:hover {
   box-sizing: border-box;
   border-bottom: 3px solid #e83a14;
-  transform: scale(1.02);
-  transition: all 0.5s;
 }
 
 .board .card-header {
@@ -90,7 +87,7 @@
   width:50%;
 }
 
-/* 공고 리스트 */
+/* 보드 리스트 */
 
 .board-list {
   display: flex;
@@ -99,16 +96,9 @@
   justify-content: flex-start;
 }
 
-/* 공고 아이템 */
-
 .board-item {
   width: 300px;
 }
-.board-item:hover {
-  transform: scale(1.02);
-  transition: all 0.5s;
-}
-
 
 @media screen and (min-width:2560px)
 {

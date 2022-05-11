@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../css/login/login.css";
-import { setCookie } from "../cookie/Cookie";
-import { checkURL } from "../checkURL/CheckURL";
-import { axiosPost } from '../../axios/Axios';
+// import { setCookie } from "../cookie/Cookie";
+import { redirectURL } from "../url/CheckURL";
+import { axiosPost } from "../axios/Axios";
 
+export function isLogin() {
+  if (sessionStorage.getItem("jwtToken")) return true;
+  else return false;
+}
 
 function LoginComponent() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  // let navigate = useNavigate();
 
   function login(e) {
     e.preventDefault();
@@ -20,20 +23,13 @@ function LoginComponent() {
     };
     axiosPost("/login", data)
       .then((result) => {
-        const url = checkURL();
-        window.location.replace(url);
+        redirectURL("login");
+        redirectURL("");
         const jwtToken = result.data.data.accessToken;
-        console.log(jwtToken);
-        setCookie("jwtToken", jwtToken, {
-          path: "/",
-          // secure: true,
-          // sameSite: "none",
-        });
-        console.log("로그인 완료!");
+        sessionStorage.setItem("jwtToken", jwtToken);
       })
       .catch(() => {
         alert("아이디와 비밀번호를 확인해주세요.");
-        console.log("아이디없음");
       });
   }
 
@@ -71,12 +67,7 @@ function LoginComponent() {
                 />
               </Form.Group>
               <div className="login-btns">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="login-btn"
-                  onClick={login}
-                >
+                <Button variant="primary" type="submit" className="login-btn" onClick={login}>
                   <p>로그인</p>
                 </Button>
                 <Button variant="primary" className="signup-btn">

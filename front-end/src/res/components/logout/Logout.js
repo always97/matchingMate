@@ -1,7 +1,6 @@
-import { deleteCookie } from "../cookie/Cookie";
 import "../../css/logout/logout.css";
 
 export function logout() {
-  deleteCookie("jwtToken");
+  sessionStorage.removeItem("jwtToken");
   location.reload();
 }
