@@ -23,8 +23,6 @@ function Home() {
   // 기본 조회는 최신순 zz
 
   const getBoards = async (lat, lng) => {
-    console.log("axios 조회 시작!!");
-    console.log("위도 ! 경도 ! ", lat, lng);
     // const res = await (await axiosGet("")).data;
     const res = await (await axios.get(`http://localhost:8050/recent?lat=${lat}&lng=${lng}`)).data;
     console.log("통신데이터", res);
