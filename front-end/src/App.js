@@ -20,6 +20,7 @@ import AdminBadgeView from "./res/page/admin/adminBadgeView";
 import MatchProfile from "./res/page/matchProfile/matchProfile";
 import MemberProfile from "./res/page/memberProfile/memberProfile";
 import BoardDetail from './res/page/BoardDetail/BoardDetail';
+import BoardRegister from './res/page/BoardRegister/BoardRegister';
 
 export default function App() {
   const member = {
@@ -39,6 +40,8 @@ export default function App() {
           <Route path="/chatting/list" element={<ChattingList />} />
           <Route path="/chatting" element={<Chat />} />
           <Route path="/post/:id" element={<BoardDetail />} />
+          <Route path="/register" element={<BoardRegister />} />
+
           <Route
             path="/admin/post/management"
             element={<AdminPostManagement />}
