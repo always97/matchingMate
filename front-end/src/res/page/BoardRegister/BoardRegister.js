@@ -30,7 +30,7 @@ const BoardRegister = () => {
     <div className={styles.container}>
       <section>
         <div className={styles.header}>
-          <h2>기본 정보를 입력</h2>
+          <h2>기본 정보 입력</h2>
         </div>
         <ul className={styles.ul}>
           <li className={styles.infoItem}>
@@ -56,7 +56,7 @@ const BoardRegister = () => {
             <label>모집 인원</label>
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
-                <InputLabel id="recruitSelect" style={{ zIndex: "-1" }}>인원을 선택해주세요.</InputLabel>
+                <InputLabel id="recruitSelect" style={{ zIndex: "-1" }}>인원(본인 포함)</InputLabel>
                 <Select
                   labelId="recruitSelect"
                   id="demo-simple-select"
@@ -64,7 +64,7 @@ const BoardRegister = () => {
                   label="recruitments"
                   onChange={(recruitments) => setRecruitments(recruitments)}
                 >
-                  <MenuItem value={1}>1명</MenuItem>
+                  
                   <MenuItem value={2}>2명</MenuItem>
                   <MenuItem value={3}>3명</MenuItem>
                   <MenuItem value={4}>4명</MenuItem>
@@ -112,7 +112,6 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <TextField
-                  className={styles.datePicker}
                   value={place}
                   onChange={(place) => setDate(place)}
                   label="장소를 입력해주세요."
@@ -180,12 +179,22 @@ const BoardRegister = () => {
         <div className={styles.header}>
           <h2>운동을 소개해주세요</h2>
         </div>
-        <ul>
-          <Box>
-            <TextField id="outlined-basic" label="제목" variant="outlined" />
-          </Box>
-          <Box>
-            <TextField id="outlined-basic" label="내용" variant="outlined" />
+        <ul className={styles.ul}>
+        <Box  sx={{width: "100%"}}>
+          <TextField id="outlined-basic" label="제목" variant="outlined"  className={styles.title} />
+        </Box>
+        </ul>
+        <ul className={styles.ul}>
+          <Box sx={{width: "100%" , height: "500px"}}>
+            <TextField 
+              id="outlined-basic" 
+              label="내용" 
+              variant="outlined" 
+              className={styles.contents}
+              multiline
+              rows={10}
+              maxRows={20}
+            />
           </Box>
         </ul>
       </section>
