@@ -10,6 +10,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from 'react-icons/fc';
 import TimeInput from "react-input-time";
+import { TextField } from '@mui/material';
+import Modal from "react-modal";
+import BoardPlaceInput from '../../components/home-board/BoardPlaceInput';
+
 
 const BoardRegister = () => {
 
@@ -17,21 +21,16 @@ const BoardRegister = () => {
   const [recruitments, setRecruitments] = useState();
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState('00:00');
+  const [place, setPlace] = useState('');
+  const [recommend, setRecommend] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
 
-
-  const handleCategory = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const handleRecruit = (event) => {
-    setRecruitments(event.target.value);
-  };
 
   return (
     <div className={styles.container}>
       <section>
         <div className={styles.header}>
-          <h2>공고 기본 정보를 입력해주세요.</h2>
+          <h2>기본 정보를 입력</h2>
         </div>
         <ul className={styles.ul}>
           <li className={styles.infoItem}>
@@ -44,7 +43,7 @@ const BoardRegister = () => {
                   id="demo-simple-select"
                   value={category}
                   label="category"
-                  onChange={handleCategory}
+                  onChange={(category) => setCategory(category)}
                 >
                   <MenuItem value={"축구"}>축구</MenuItem>
                   <MenuItem value={"농구"}>농구</MenuItem>
@@ -57,13 +56,13 @@ const BoardRegister = () => {
             <label>모집 인원</label>
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
-                <InputLabel id="recruitSelect">인원을 선택해주세요.</InputLabel>
+                <InputLabel id="recruitSelect" style={{ zIndex: "-1" }}>인원을 선택해주세요.</InputLabel>
                 <Select
                   labelId="recruitSelect"
                   id="demo-simple-select"
                   value={recruitments}
                   label="recruitments"
-                  onChange={handleRecruit}
+                  onChange={(recruitments) => setRecruitments(recruitments)}
                 >
                   <MenuItem value={1}>1명</MenuItem>
                   <MenuItem value={2}>2명</MenuItem>
@@ -83,7 +82,6 @@ const BoardRegister = () => {
         <ul className={styles.ul}>
           <li className={styles.infoItem}>
             <label>운동 일자</label>
-
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <InputLabel id="dateSelect" className={styles.inputCalendar}><FcCalendar style={{ marginLeft: "310px" }} /></InputLabel>
@@ -104,13 +102,93 @@ const BoardRegister = () => {
                     setTime(time);
                   }}
                 />
+              </FormControl>
+            </Box>
+          </li>
+        </ul>
+        <ul className={styles.ul}>
+          <li className={styles.infoItem}>
+            <label>운동 장소</label>
+            <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
+              <FormControl sx={{ width: 350, marginTop: 2 }} >
+                <TextField
+                  className={styles.datePicker}
+                  value={place}
+                  onChange={(place) => setDate(place)}
+                  label="장소를 입력해주세요."
+                  onClick={() => setModalOpen(true)}
+                />
+              </FormControl>
+            </Box>
+            <Modal
+              isOpen={modalOpen}
+              onRequestClose={() => setModalOpen(false)}
+              style={{
+                overlay: {
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(126, 147, 149, 0.83)",
+                },
+                content: {
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  border: "1px solid #ccc",
+                  background: "#fff",
+                  overflow: "auto",
+                  WebkitOverflowScrolling: "touch",
+                  borderRadius: "4px",
+                  outline: "none",
+                  padding: "20px",
+                  width: "600px",
+                  height: "500px",
 
+                },
+              }}
+            >
+              <BoardPlaceInput setPlace={setPlace} setModalOpen={setModalOpen} style={{ zIndex: "999" }} />
+              <button onClick={() => setModalOpen(false)}>닫기</button>
+            </Modal>
+          </li>
+          <li className={styles.infoItem}>
+            <label>추천 숙련도</label>
+            <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
+              <FormControl sx={{ width: 350, marginTop: 2 }} >
+                <InputLabel id="recommendSelect" style={{ zIndex: "-1" }}>추천 숙련도</InputLabel>
+                <Select
+                  labelId="recommendSelect"
+                  id="demo-simple-select"
+                  value={recommend}
+                  label="recommend"
+                  onChange={(recommend) => setRecommend(recommend)}
+                >
+                  <MenuItem value={"누구나"}>누구나</MenuItem>
+                  <MenuItem value={"뉴비"}>뉴비</MenuItem>
+                  <MenuItem value={"중급"}>중급</MenuItem>
+                  <MenuItem value={"고급"}>고급</MenuItem>
+                </Select>
               </FormControl>
             </Box>
           </li>
         </ul>
       </section>
-
+      <section>
+        <div className={styles.header}>
+          <h2>운동을 소개해주세요</h2>
+        </div>
+        <ul>
+          <Box>
+            <TextField id="outlined-basic" label="제목" variant="outlined" />
+          </Box>
+          <Box>
+            <TextField id="outlined-basic" label="내용" variant="outlined" />
+          </Box>
+        </ul>
+      </section>
     </div>
   );
 };
