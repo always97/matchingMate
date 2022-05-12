@@ -13,6 +13,7 @@ import TimeInput from "react-input-time";
 import { TextField } from '@mui/material';
 import Modal from "react-modal";
 import BoardPlaceInput from '../../components/home-board/BoardPlaceInput';
+import Button from '@mui/material/Button';
 
 
 const BoardRegister = () => {
@@ -193,9 +194,14 @@ const BoardRegister = () => {
               className={styles.contents}
               multiline
               rows={10}
-              maxRows={20}
+              maxRows={15}
             />
+            <div className={styles.btnBox}>
+              <Button variant="outlined">취소</Button>
+              <Button variant="outlined">등록하기</Button>
+            </div>
           </Box>
+          
         </ul>
       </section>
     </div>
