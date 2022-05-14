@@ -18,12 +18,18 @@ import Button from '@mui/material/Button';
 
 const BoardRegister = () => {
 
-  const [category, setCategory] = useState('');
-  const [recruitments, setRecruitments] = useState();
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState('00:00');
-  const [place, setPlace] = useState('');
-  const [recommend, setRecommend] = useState('');
+  const [postInfo, setPostInfo] = useState({
+    title:'',
+    contents: '',
+    category: '',
+    recruitments: '',
+    date : new Date(),
+    time : '00:00',
+    place : '',
+    recommend : ''
+  });
+
+
   const [modalOpen, setModalOpen] = useState(false);
 
 
@@ -42,9 +48,9 @@ const BoardRegister = () => {
                 <Select
                   labelId="categorySelect"
                   id="demo-simple-select"
-                  value={category}
+                  value={postInfo.category}
                   label="category"
-                  onChange={(category) => setCategory(category)}
+                  onChange={(category) => setPostInfo({...postInfo, category})}
                 >
                   <MenuItem value={"축구"}>축구</MenuItem>
                   <MenuItem value={"농구"}>농구</MenuItem>
@@ -61,9 +67,9 @@ const BoardRegister = () => {
                 <Select
                   labelId="recruitSelect"
                   id="demo-simple-select"
-                  value={recruitments}
+                  value={postInfo.recruitments}
                   label="recruitments"
-                  onChange={(recruitments) => setRecruitments(recruitments)}
+                  onChange={(recruitments) => setPostInfo({...postInfo, recruitments})}
                 >
                   
                   <MenuItem value={2}>2명</MenuItem>
@@ -86,7 +92,7 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <InputLabel id="dateSelect" className={styles.inputCalendar}><FcCalendar style={{ marginLeft: "310px" }} /></InputLabel>
-                <DatePicker className={styles.datePicker} selected={date} value={date} onChange={(date) => setDate(date)} label="dateSelect" />
+                <DatePicker className={styles.datePicker} selected={postInfo.date} value={postInfo.date} onChange={(date) => setPostInfo({...postInfo,date})} label="dateSelect" />
               </FormControl>
             </Box>
           </li>
@@ -97,10 +103,10 @@ const BoardRegister = () => {
                 <TimeInput
                   className={styles.inputTime}
                   initialTime="00:00"
-                  value={time}
+                  value={postInfo.time}
                   onChange={(event, time) => {
                     event.prevenDefault();
-                    setTime(time);
+                    setPostInfo({...postInfo,time});
                   }}
                 />
               </FormControl>
@@ -113,8 +119,8 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <TextField
-                  value={place}
-                  onChange={(place) => setDate(place)}
+                  value={postInfo.place}
+                  onChange={(place) => setPostInfo({...postInfo,place})}
                   label="장소를 입력해주세요."
                   onClick={() => setModalOpen(true)}
                 />
@@ -150,7 +156,7 @@ const BoardRegister = () => {
                 },
               }}
             >
-              <BoardPlaceInput setPlace={setPlace} setModalOpen={setModalOpen} style={{ zIndex: "999" }} />
+              <BoardPlaceInput postInfo={postInfo} setPostInfo={setPostInfo} setModalOpen={setModalOpen} style={{ zIndex: "999" }} />
               <button onClick={() => setModalOpen(false)}>닫기</button>
             </Modal>
           </li>
@@ -162,9 +168,9 @@ const BoardRegister = () => {
                 <Select
                   labelId="recommendSelect"
                   id="demo-simple-select"
-                  value={recommend}
+                  value={postInfo.recommend}
                   label="recommend"
-                  onChange={(recommend) => setRecommend(recommend)}
+                  onChange={(recommend) => setPostInfo({...postInfo,recommend})}
                 >
                   <MenuItem value={"누구나"}>누구나</MenuItem>
                   <MenuItem value={"뉴비"}>뉴비</MenuItem>
@@ -182,7 +188,14 @@ const BoardRegister = () => {
         </div>
         <ul className={styles.ul}>
         <Box  sx={{width: "100%"}}>
-          <TextField id="outlined-basic" label="제목" variant="outlined"  className={styles.title} />
+          <TextField 
+            id="outlined-basic" 
+            label="제목" 
+            variant="outlined" 
+            className={styles.title}
+            value={postInfo.title} 
+            onChange={(title) => setPostInfo({...postInfo,title})}
+          />
         </Box>
         </ul>
         <ul className={styles.ul}>
@@ -190,7 +203,9 @@ const BoardRegister = () => {
             <TextField 
               id="outlined-basic" 
               label="내용" 
-              variant="outlined" 
+              variant="outlined"
+              value={postInfo.contents}
+              onChange={(contents) => setPostInfo({...postInfo,contents})} 
               className={styles.contents}
               multiline
               rows={10}
