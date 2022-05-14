@@ -32,6 +32,13 @@ const BoardRegister = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
+  const onChange = (e) => {
+    const { value, name } = e.target; 
+    setPostInfo({
+      ...postInfo, 
+      [name]: value 
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -50,7 +57,7 @@ const BoardRegister = () => {
                   id="demo-simple-select"
                   value={postInfo.category}
                   label="category"
-                  onChange={(category) => setPostInfo({...postInfo, category})}
+                  onChange={onChange}
                 >
                   <MenuItem value={"축구"}>축구</MenuItem>
                   <MenuItem value={"농구"}>농구</MenuItem>
@@ -69,7 +76,7 @@ const BoardRegister = () => {
                   id="demo-simple-select"
                   value={postInfo.recruitments}
                   label="recruitments"
-                  onChange={(recruitments) => setPostInfo({...postInfo, recruitments})}
+                  onChange={onChange}
                 >
                   
                   <MenuItem value={2}>2명</MenuItem>
@@ -92,7 +99,7 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <InputLabel id="dateSelect" className={styles.inputCalendar}><FcCalendar style={{ marginLeft: "310px" }} /></InputLabel>
-                <DatePicker className={styles.datePicker} selected={postInfo.date} value={postInfo.date} onChange={(date) => setPostInfo({...postInfo,date})} label="dateSelect" />
+                <DatePicker className={styles.datePicker} selected={postInfo.date} value={postInfo.date} onChange={onChange} label="dateSelect" />
               </FormControl>
             </Box>
           </li>
@@ -104,10 +111,7 @@ const BoardRegister = () => {
                   className={styles.inputTime}
                   initialTime="00:00"
                   value={postInfo.time}
-                  onChange={(event, time) => {
-                    event.prevenDefault();
-                    setPostInfo({...postInfo,time});
-                  }}
+                  onChange={onChange}
                 />
               </FormControl>
             </Box>
@@ -120,7 +124,7 @@ const BoardRegister = () => {
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <TextField
                   value={postInfo.place}
-                  onChange={(place) => setPostInfo({...postInfo,place})}
+                  onChange={onChange}
                   label="장소를 입력해주세요."
                   onClick={() => setModalOpen(true)}
                 />
@@ -170,7 +174,7 @@ const BoardRegister = () => {
                   id="demo-simple-select"
                   value={postInfo.recommend}
                   label="recommend"
-                  onChange={(recommend) => setPostInfo({...postInfo,recommend})}
+                  onChange={onChange}
                 >
                   <MenuItem value={"누구나"}>누구나</MenuItem>
                   <MenuItem value={"뉴비"}>뉴비</MenuItem>
@@ -194,18 +198,18 @@ const BoardRegister = () => {
             variant="outlined" 
             className={styles.title}
             value={postInfo.title} 
-            onChange={(title) => setPostInfo({...postInfo,title})}
+            onChange={onChange}
           />
         </Box>
         </ul>
         <ul className={styles.ul}>
           <Box sx={{width: "100%" , height: "500px"}}>
-            <TextField 
+            <TextField
               id="outlined-basic" 
               label="내용" 
               variant="outlined"
               value={postInfo.contents}
-              onChange={(contents) => setPostInfo({...postInfo,contents})} 
+              onChange={onChange} 
               className={styles.contents}
               multiline
               rows={10}
