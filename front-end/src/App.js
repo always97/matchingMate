@@ -22,6 +22,7 @@ import MemberProfile from "./res/page/memberProfile/memberProfile";
 import BoardDetail from './res/page/BoardDetail/BoardDetail';
 import BoardRegister from './res/page/BoardRegister/BoardRegister';
 
+
 export default function App() {
   const member = {
     name: "홍길동",

@@ -14,13 +14,19 @@ const BoardDetail = () => {
   const { id } = useParams();
   console.log("detail id : ", id);
   const [modalOpen, setModalOpen] = useState(false);
-
   const navigate = useNavigate();
   const [board, setBoard] = useState(null);
   const [isLoading, setisLoading] = useState(true);
 
+  const token = sessionStorage.getItem("jwtToken");
+
   const getBoard = async () => {
-    const res = await (await axios.get(`http://localhost:8050/matchingPost/detail/${id}`)).data;
+    const res = await (await axios.get(`http://localhost:8050/matchingPost/detail/${id}`, {
+      headers: {
+        Authorization: `${token}`
+    }
+    }
+    )).data;
     // const res = await (await axiosGet(`/matchingPost/detail/${id}`)).data;
     console.log("detail 조회 결과", res);
     setBoard(res.data);
