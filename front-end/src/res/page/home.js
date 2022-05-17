@@ -1,4 +1,4 @@
-// import Body from "./Body";
+/* global kakao */
 import HomeHeader from "../components/home/HomeHeader";
 import React, { useEffect, useState } from "react";
 import Nav from "../components/nav/Nav";
@@ -11,6 +11,7 @@ import axios from 'axios';
 
 function Home() {
   const [boards, setBoards] = useState([]);
+  const [liveAddr, setLiveAddr] = useState('');
   const [latitude, setLatitude] = useState("");
   const [longtitue, setLongitude] = useState("");
 
@@ -61,8 +62,24 @@ function Home() {
     }
   }
 
+  const geocoder = new kakao.maps.services.Geocoder();
+  let coord = new kakao.maps.LatLng(latitude, longtitue);
+  const getAddress = function (result, status) {
+
+    console.log("getAddress 진입 !!");
+
+    let liveAddress = '';
+    if (status === kakao.maps.services.Status.OK) {
+      let address = result[0].address;
+      liveAddress = address.region_1depth_name + ' ' + address.region_2depth_name + ' ' + address.region_3depth_name;
+
+      setLiveAddr(liveAddress);
+      sessionStorage.setItem("liveAddress", liveAddress);
+    }
+  };
+
   useEffect(() => {
-    getLocation();
+    getLocation().then(() => geocoder.coord2Address(coord.getLng(), coord.getLat(), getAddress));
 
   }, []);
 
@@ -77,6 +94,7 @@ function Home() {
         getPopularBoards={getPopularBoards}
         getBoards={getBoards}
         getLocation={getLocation}
+        liveAddr={liveAddr}
         lat={latitude}
         lng={longtitue}
       />

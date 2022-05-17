@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from 'react-icons/fc';
@@ -18,27 +18,39 @@ import Button from '@mui/material/Button';
 
 const BoardRegister = () => {
 
+  const liveAddr = sessionStorage.getItem("liveAddr");
+
   const [postInfo, setPostInfo] = useState({
-    title:'',
-    contents: '',
+    postName: '',
+    postContents: '',
     category: '',
-    recruitments: '',
-    date : new Date(),
-    time : '00:00',
-    place : '',
-    recommend : ''
+    maxNumberOfPeople: '',
+    matchingDate: new Date(),
+    matchingTime: '00:00',
+    place: liveAddr ? liveAddr : '',
+    recommendedSkill: ''
   });
 
+  const token = sessionStorage.getItem("jwtToken");
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const onChange = (e) => {
-    const { value, name } = e.target; 
+    const { value, name } = e.target;
     setPostInfo({
-      ...postInfo, 
-      [name]: value 
+      ...postInfo,
+      [name]: value
     });
   };
+
+  const onCreate = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8050/matchingPost/create', postInfo, {
+      headers: {
+        'Authorization': token
+      }
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -73,12 +85,12 @@ const BoardRegister = () => {
                 <InputLabel id="recruitSelect" style={{ zIndex: "-1" }}>인원(본인 포함)</InputLabel>
                 <Select
                   labelId="recruitSelect"
-                  id="demo-simple-select"
-                  value={postInfo.recruitments}
-                  label="recruitments"
+                  id="maxNumberOfPeopleSelect"
+                  value={postInfo.maxNumberOfPeople}
+                  label="recruitSelect2"
                   onChange={onChange}
                 >
-                  
+
                   <MenuItem value={2}>2명</MenuItem>
                   <MenuItem value={3}>3명</MenuItem>
                   <MenuItem value={4}>4명</MenuItem>
@@ -99,7 +111,7 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <InputLabel id="dateSelect" className={styles.inputCalendar}><FcCalendar style={{ marginLeft: "310px" }} /></InputLabel>
-                <DatePicker className={styles.datePicker} selected={postInfo.date} value={postInfo.date} onChange={onChange} label="dateSelect" />
+                <DatePicker className={styles.datePicker} selected={postInfo.matchingDate} value={postInfo.matchingDate} onChange={onChange} label="dateSelect" />
               </FormControl>
             </Box>
           </li>
@@ -110,7 +122,7 @@ const BoardRegister = () => {
                 <TimeInput
                   className={styles.inputTime}
                   initialTime="00:00"
-                  value={postInfo.time}
+                  value={postInfo.matchingTime}
                   onChange={onChange}
                 />
               </FormControl>
@@ -172,7 +184,7 @@ const BoardRegister = () => {
                 <Select
                   labelId="recommendSelect"
                   id="demo-simple-select"
-                  value={postInfo.recommend}
+                  value={postInfo.recommendedSkill}
                   label="recommend"
                   onChange={onChange}
                 >
@@ -191,25 +203,25 @@ const BoardRegister = () => {
           <h2>운동을 소개해주세요</h2>
         </div>
         <ul className={styles.ul}>
-        <Box  sx={{width: "100%"}}>
-          <TextField 
-            id="outlined-basic" 
-            label="제목" 
-            variant="outlined" 
-            className={styles.title}
-            value={postInfo.title} 
-            onChange={onChange}
-          />
-        </Box>
+          <Box sx={{ width: "100%" }}>
+            <TextField
+              id="outlined-basic"
+              label="제목"
+              variant="outlined"
+              className={styles.title}
+              value={postInfo.postName}
+              onChange={onChange}
+            />
+          </Box>
         </ul>
         <ul className={styles.ul}>
-          <Box sx={{width: "100%" , height: "500px"}}>
+          <Box sx={{ width: "100%", height: "500px" }}>
             <TextField
-              id="outlined-basic" 
-              label="내용" 
+              id="outlined-basic"
+              label="내용"
               variant="outlined"
-              value={postInfo.contents}
-              onChange={onChange} 
+              value={postInfo.postContents}
+              onChange={onChange}
               className={styles.contents}
               multiline
               rows={10}
@@ -217,10 +229,10 @@ const BoardRegister = () => {
             />
             <div className={styles.btnBox}>
               <Button variant="outlined">취소</Button>
-              <Button variant="outlined">등록하기</Button>
+              <Button variant="outlined" onClick={onCreate}>등록하기</Button>
             </div>
           </Box>
-          
+
         </ul>
       </section>
     </div>

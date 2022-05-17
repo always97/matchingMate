@@ -14,7 +14,7 @@ import styled from "styled-components";
 
 function Board(props) {
 
-  const { boards, getPopularBoards, getBoards, getLocation, lat, lng } = props;
+  const { boards, getPopularBoards, getBoards, getLocation, lat, lng, liveAddr } = props;
 
 
   const limit = 8;
@@ -35,6 +35,7 @@ function Board(props) {
               <img src={Fire} alt="sparkles" />
             </div>
             <Button onClick={() => getLocation()}>위치 갱신</Button>
+            <span><h3>{liveAddr}</h3></span>
           </Col>
           <Col>
             <HomeBoardCreate></HomeBoardCreate>

@@ -1,11 +1,11 @@
 import axios from "axios";
 
 // var url = "http://localhost:8080";
-var url = "http://localhost:8080";
+var url = "http://localhost:8050";
 
 export function axiosPost(path, data) {
-  if (url !== "http://localhost:8080") {
-    url = "http://localhost:8080" + path;
+  if (url !== "http://localhost:8050") {
+    url = "http://localhost:8050" + path;
   } else {
     url += path;
   }
@@ -14,8 +14,8 @@ export function axiosPost(path, data) {
 }
 
 export function axiosGet(path, headers) {
-  if (url !== "http://localhost:8080") {
-    url = "http://localhost:8080" + path;
+  if (url !== "http://localhost:8050") {
+    url = "http://localhost:8050" + path;
   } else {
     url += path;
   }
