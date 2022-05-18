@@ -5,7 +5,7 @@ import Nav from "../components/nav/Nav";
 import HomeCarousel from "../components/home/HomeCarousel";
 import Board from "../components/home-board/HomeBoard";
 import NavToChat from "../components/nav/NavToChat";
-// import { axiosGet } from '../axios/Axios';
+import { axiosGet } from '../components/axios/Axios';
 import axios from 'axios';
 
 
@@ -14,6 +14,7 @@ function Home() {
   const [liveAddr, setLiveAddr] = useState('');
   const [latitude, setLatitude] = useState("");
   const [longtitue, setLongitude] = useState("");
+  const [categorys, setCategorys] = useState();
 
   const getPopularBoards = async (lat, lng) => {
     // const res = await (await axiosGet("/popular")).data;
@@ -47,6 +48,7 @@ function Home() {
         setLatitude(lat);
         setLongitude(lng);
         getBoards(lat, lng);
+        geocoder.coord2Address(coord.getLng(), coord.getLat(), getAddress);
         alert('위도 : ' + lat + ' 경도 : ' + lng);
         console.log('위도 : ' + latitude + ' 경도 : ' + longtitue); // 일단 but never used 에러창 방지
       }, function (error) {
@@ -62,8 +64,17 @@ function Home() {
     }
   }
 
+  function getCategorys() {
+    axiosGet("/admin/category").then((res) => {
+      const data = res.data.data;
+      setCategorys(data);
+    });
+  }
+
   const geocoder = new kakao.maps.services.Geocoder();
   let coord = new kakao.maps.LatLng(latitude, longtitue);
+
+
   const getAddress = function (result, status) {
 
     console.log("getAddress 진입 !!");
@@ -79,7 +90,9 @@ function Home() {
   };
 
   useEffect(() => {
-    getLocation().then(() => geocoder.coord2Address(coord.getLng(), coord.getLat(), getAddress));
+    getLocation()
+
+    getCategorys();
 
   }, []);
 
@@ -95,6 +108,7 @@ function Home() {
         getBoards={getBoards}
         getLocation={getLocation}
         liveAddr={liveAddr}
+        categorys={categorys}
         lat={latitude}
         lng={longtitue}
       />

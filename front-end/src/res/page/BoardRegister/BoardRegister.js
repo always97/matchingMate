@@ -14,16 +14,17 @@ import { TextField } from '@mui/material';
 import Modal from "react-modal";
 import BoardPlaceInput from '../../components/home-board/BoardPlaceInput';
 import Button from '@mui/material/Button';
-
+import { useLocation, useNavigate } from "react-router";
 
 const BoardRegister = () => {
 
-  const liveAddr = sessionStorage.getItem("liveAddr");
-
+  const { liveAddr, categorys } = useLocation().state;
+  console.log("state 잘 전달 받았나요 ? :", liveAddr, categorys);
+  const navigate = useNavigate();
   const [postInfo, setPostInfo] = useState({
     postName: '',
     postContents: '',
-    category: '',
+    categoryId: '',
     maxNumberOfPeople: '',
     matchingDate: new Date(),
     matchingTime: '00:00',
@@ -33,9 +34,15 @@ const BoardRegister = () => {
 
   const token = sessionStorage.getItem("jwtToken");
 
+  console.log("토큰있지??", token)
+
   const [modalOpen, setModalOpen] = useState(false);
 
-  const onChange = (e) => {
+  const handleChange = (e) => {
+    e.preventDefault();
+    console.log("핸들 들어오긴함?");
+    console.log(e.target);
+
     const { value, name } = e.target;
     setPostInfo({
       ...postInfo,
@@ -45,12 +52,16 @@ const BoardRegister = () => {
 
   const onCreate = (e) => {
     e.preventDefault();
+    console.log("넣는데이터", postInfo);
     axios.post('http://localhost:8050/matchingPost/create', postInfo, {
       headers: {
-        'Authorization': token
+        'Authorization': "Bearer " + token
       }
     })
+    navigate('/');
   }
+
+  console.log("아니 이거 있긴함?", postInfo.maxNumberOfPeople);
 
   return (
     <div className={styles.container}>
@@ -67,13 +78,17 @@ const BoardRegister = () => {
                 <Select
                   labelId="categorySelect"
                   id="demo-simple-select"
-                  value={postInfo.category}
+                  value={postInfo.categoryId}
+                  name="categoryId"
                   label="category"
-                  onChange={onChange}
+                  onChange={handleChange}
                 >
-                  <MenuItem value={"축구"}>축구</MenuItem>
-                  <MenuItem value={"농구"}>농구</MenuItem>
-                  <MenuItem value={"탁구"}>탁구</MenuItem>
+                  {
+                    categorys.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                    )
+                    )
+                  }
                 </Select>
               </FormControl>
             </Box>
@@ -87,8 +102,9 @@ const BoardRegister = () => {
                   labelId="recruitSelect"
                   id="maxNumberOfPeopleSelect"
                   value={postInfo.maxNumberOfPeople}
+                  name="maxNumberOfPeople"
                   label="recruitSelect2"
-                  onChange={onChange}
+                  onChange={handleChange}
                 >
 
                   <MenuItem value={2}>2명</MenuItem>
@@ -111,7 +127,8 @@ const BoardRegister = () => {
             <Box sx={{ minWidth: 120 }} className={styles.selectBox} >
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <InputLabel id="dateSelect" className={styles.inputCalendar}><FcCalendar style={{ marginLeft: "310px" }} /></InputLabel>
-                <DatePicker className={styles.datePicker} selected={postInfo.matchingDate} value={postInfo.matchingDate} onChange={onChange} label="dateSelect" />
+                <DatePicker className={styles.datePicker} selected={postInfo.matchingDate} name="matchingDate"
+                  onChange={(date) => setPostInfo({ ...postInfo, matchingDate: date })} />
               </FormControl>
             </Box>
           </li>
@@ -123,7 +140,8 @@ const BoardRegister = () => {
                   className={styles.inputTime}
                   initialTime="00:00"
                   value={postInfo.matchingTime}
-                  onChange={onChange}
+                  name="matchingTime"
+                  onChange={handleChange}
                 />
               </FormControl>
             </Box>
@@ -136,8 +154,9 @@ const BoardRegister = () => {
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <TextField
                   value={postInfo.place}
-                  onChange={onChange}
+                  onChange={handleChange}
                   label="장소를 입력해주세요."
+                  name="place"
                   onClick={() => setModalOpen(true)}
                 />
               </FormControl>
@@ -186,7 +205,8 @@ const BoardRegister = () => {
                   id="demo-simple-select"
                   value={postInfo.recommendedSkill}
                   label="recommend"
-                  onChange={onChange}
+                  name="recommendedSkill"
+                  onChange={handleChange}
                 >
                   <MenuItem value={"누구나"}>누구나</MenuItem>
                   <MenuItem value={"뉴비"}>뉴비</MenuItem>
@@ -209,8 +229,9 @@ const BoardRegister = () => {
               label="제목"
               variant="outlined"
               className={styles.title}
+              name="postName"
               value={postInfo.postName}
-              onChange={onChange}
+              onChange={handleChange}
             />
           </Box>
         </ul>
@@ -221,7 +242,8 @@ const BoardRegister = () => {
               label="내용"
               variant="outlined"
               value={postInfo.postContents}
-              onChange={onChange}
+              name="postContents"
+              onChange={handleChange}
               className={styles.contents}
               multiline
               rows={10}
