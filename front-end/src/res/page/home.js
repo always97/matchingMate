@@ -6,7 +6,7 @@ import HomeCarousel from "../components/home/HomeCarousel";
 import Board from "../components/home-board/HomeBoard";
 import NavToChat from "../components/nav/NavToChat";
 import { axiosGet } from '../components/axios/Axios';
-import axios from 'axios';
+
 
 
 function Home() {
@@ -16,17 +16,17 @@ function Home() {
   const [longtitue, setLongitude] = useState("");
   const [categorys, setCategorys] = useState();
 
+
+
   const getPopularBoards = async (lat, lng) => {
-    // const res = await (await axiosGet("/popular")).data;
-    const res = await (await axios.get(`http://localhost:8050/popular?lat=${lat}&lng=${lng}`)).data;
+    const res = await (await axiosGet(`/popular?lat=${lat}&lng=${lng}`)).data;
     setBoards(res.data);
   };
 
   // 기본 조회는 최신순 zz
 
   const getBoards = async (lat, lng) => {
-    // const res = await (await axiosGet("")).data;
-    const res = await (await axios.get(`http://localhost:8050/recent?lat=${lat}&lng=${lng}`)).data;
+    const res = await (await axiosGet(`/recent?lat=${lat}&lng=${lng}`)).data;
     console.log("통신데이터", res);
     setBoards(res.data);
   };
@@ -48,7 +48,7 @@ function Home() {
         setLatitude(lat);
         setLongitude(lng);
         getBoards(lat, lng);
-        geocoder.coord2Address(coord.getLng(), coord.getLat(), getAddress);
+        getAddr(lat, lng);
         alert('위도 : ' + lat + ' 경도 : ' + lng);
         console.log('위도 : ' + latitude + ' 경도 : ' + longtitue); // 일단 but never used 에러창 방지
       }, function (error) {
@@ -71,11 +71,16 @@ function Home() {
     });
   }
 
-  const geocoder = new kakao.maps.services.Geocoder();
-  let coord = new kakao.maps.LatLng(latitude, longtitue);
+  const getAddr = async (lat, lng) => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    let coord = new kakao.maps.LatLng(lat, lng);
+
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), addrCallback);
+
+  }
 
 
-  const getAddress = function (result, status) {
+  const addrCallback = async (result, status) => {
 
     console.log("getAddress 진입 !!");
 
@@ -84,13 +89,19 @@ function Home() {
       let address = result[0].address;
       liveAddress = address.region_1depth_name + ' ' + address.region_2depth_name + ' ' + address.region_3depth_name;
 
+      console.log("콜백함수에서 현위치 찾는중 :::", liveAddress);
+
       setLiveAddr(liveAddress);
       sessionStorage.setItem("liveAddress", liveAddress);
     }
   };
 
   useEffect(() => {
-    getLocation()
+    if (!latitude) {
+      getLocation();
+    } else {
+      getBoards(latitude, longtitue);
+    }
 
     getCategorys();
 

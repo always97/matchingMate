@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router';
 
 function Board(props) {
 
-  const { boards, getPopularBoards, getBoards, getLocation, lat, lng, liveAddr, categorys } = props;
+  const { boards, getPopularBoards, getBoards, getLocation, lat, lng, liveAddr, categorys, boardDelete } = props;
 
 
   const limit = 8;
@@ -51,7 +51,7 @@ function Board(props) {
         </Row>
         <Row className="board-list">
           {/* {boards.map((board) => <BoardItem key={board.id} board={board} />)} */}
-          {boards.slice(offset, offset + limit).map((board) => <BoardItem key={board.id} board={board} />)}
+          {boards.slice(offset, offset + limit).map((board) => <BoardItem key={board.id} board={board} categorys={categorys} boardDelete={boardDelete} />)}
         </Row>
       </div>
       <footer>

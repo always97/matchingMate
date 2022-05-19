@@ -2,7 +2,7 @@ import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
 const BoardPlaceInput = (props) => {
-  const { setPlace, setModalOpen } = props;
+  const { postInfo, setPostInfo, setModalOpen } = props;
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -17,7 +17,7 @@ const BoardPlaceInput = (props) => {
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
     console.log(fullAddress);
-    setPlace(fullAddress);
+    setPostInfo({ ...postInfo, place: fullAddress });
     setModalOpen(false);
   }
   // eslint-disable-next-line react/react-in-jsx-scope

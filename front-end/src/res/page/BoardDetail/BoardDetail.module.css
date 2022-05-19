@@ -18,6 +18,9 @@
 .backBtn {
   margin-bottom: 1.5rem;
 }
+.backBtn:hover {
+  cursor: pointer;
+}
 
 .contentBox {
   margin-top: 3rem;

@@ -15,21 +15,28 @@ import Modal from "react-modal";
 import BoardPlaceInput from '../../components/home-board/BoardPlaceInput';
 import Button from '@mui/material/Button';
 import { useLocation, useNavigate } from "react-router";
+import { BsArrowLeft } from "react-icons/bs";
+// import moment from 'moment';
 
 const BoardRegister = () => {
 
-  const { liveAddr, categorys } = useLocation().state;
+  const { liveAddr, categorys, board, id, api } = useLocation().state;
   console.log("state 잘 전달 받았나요 ? :", liveAddr, categorys);
+
+  console.log("수정시 board 받앗나요 ? ? :", board);
+
   const navigate = useNavigate();
+
+
   const [postInfo, setPostInfo] = useState({
-    postName: '',
-    postContents: '',
-    categoryId: '',
-    maxNumberOfPeople: '',
+    postName: board ? board.postName : '',
+    postContents: board ? board.postContents : '',
+    categoryId: board ? board.categoryId : '',
+    maxNumberOfPeople: board ? board.maxNumberOfPeople : '',
     matchingDate: new Date(),
-    matchingTime: '00:00',
-    place: liveAddr ? liveAddr : '',
-    recommendedSkill: ''
+    matchingTime: board ? board.matchingTime : '00:00',
+    place: board ? board.place : '',
+    recommendedSkill: board ? board.recommendedSkill : ''
   });
 
   const token = sessionStorage.getItem("jwtToken");
@@ -60,12 +67,22 @@ const BoardRegister = () => {
     })
     navigate('/');
   }
+  const onUpdate = (e) => {
+    e.preventDefault();
+    const updateInfo = { ...postInfo, id };
+
+    console.log("넣는데이터", updateInfo);
+    axios.put('http://localhost:8050/matchingPost/detail/update', updateInfo);
+
+    navigate('/');
+  }
 
   console.log("아니 이거 있긴함?", postInfo.maxNumberOfPeople);
 
   return (
     <div className={styles.container}>
       <section>
+        <BsArrowLeft className={styles.backBtn} size="40" onClick={() => navigate(-1)}></BsArrowLeft>
         <div className={styles.header}>
           <h2>기본 정보 입력</h2>
         </div>
@@ -78,7 +95,7 @@ const BoardRegister = () => {
                 <Select
                   labelId="categorySelect"
                   id="demo-simple-select"
-                  value={postInfo.categoryId}
+                  value={board ? board.categoryName : postInfo.categoryId}
                   name="categoryId"
                   label="category"
                   onChange={handleChange}
@@ -138,7 +155,7 @@ const BoardRegister = () => {
               <FormControl sx={{ width: 350, marginTop: 2 }} >
                 <TimeInput
                   className={styles.inputTime}
-                  initialTime="00:00"
+                  initialTime={board ? board.matchingTime : "00:00"}
                   value={postInfo.matchingTime}
                   name="matchingTime"
                   onChange={handleChange}
@@ -161,6 +178,7 @@ const BoardRegister = () => {
                 />
               </FormControl>
             </Box>
+            <Button onClick={() => setPostInfo({ ...postInfo, place: liveAddr })}>미정입니다.</Button>
             <Modal
               isOpen={modalOpen}
               onRequestClose={() => setModalOpen(false)}
@@ -251,7 +269,10 @@ const BoardRegister = () => {
             />
             <div className={styles.btnBox}>
               <Button variant="outlined">취소</Button>
-              <Button variant="outlined" onClick={onCreate}>등록하기</Button>
+              {api === "update" ?
+                <Button variant="outlined" onClick={onUpdate}>수정하기</Button> :
+                <Button variant="outlined" onClick={onCreate}>등록하기</Button>
+              }
             </div>
           </Box>
 

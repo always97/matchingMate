@@ -12,6 +12,7 @@
     "global": "^4.4.0",
     "google-maps-react": "^2.0.6",
     "modal": "^1.2.0",
+    "moment": "^2.29.3",
     "react": "^18.1.0",
     "react-bootstrap-validation": "^0.1.11",
     "react-cookie": "^4.1.1",
