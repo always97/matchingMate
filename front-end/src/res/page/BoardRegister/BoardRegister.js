@@ -32,8 +32,9 @@ const BoardRegister = () => {
     postName: board ? board.postName : '',
     postContents: board ? board.postContents : '',
     categoryId: board ? board.categoryId : '',
+    categoryName : board ? board.categoryName : '',
     maxNumberOfPeople: board ? board.maxNumberOfPeople : '',
-    matchingDate: new Date(),
+    matchingDate: board ? new Date(board.matchingDate) :new Date(),
     matchingTime: board ? board.matchingTime : '00:00',
     place: board ? board.place : '',
     recommendedSkill: board ? board.recommendedSkill : ''
@@ -95,7 +96,7 @@ const BoardRegister = () => {
                 <Select
                   labelId="categorySelect"
                   id="demo-simple-select"
-                  value={board ? board.categoryName : postInfo.categoryId}
+                  value={postInfo.categoryId}
                   name="categoryId"
                   label="category"
                   onChange={handleChange}
