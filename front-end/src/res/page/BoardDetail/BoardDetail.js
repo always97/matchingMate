@@ -65,11 +65,11 @@ const BoardDetail = () => {
                   <span className={styles.infoContent}>{board.categoryName}</span>
                 </li>
                 <li className={styles.infoBox}>
-                  <span className={styles.infoTitle}>운동일</span>
+                  <span className={styles.infoTitle}>운동 예정일</span>
                   <span className={styles.infoContent}>{board.matchingDate}</span>
                 </li>
                 <li className={styles.infoBox}>
-                  <span className={styles.infoTitle}>시작시간</span>
+                  <span className={styles.infoTitle}>운동 시작시간</span>
                   <span className={styles.infoContent}>{board.matchingTime}</span>
                 </li>
                 <li className={styles.infoBox}>

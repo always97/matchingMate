@@ -266,7 +266,7 @@ const BoardRegister = () => {
               maxRows={15}
             />
             <div className={styles.btnBox}>
-              <Button variant="outlined">취소</Button>
+              <Button variant="outlined" onClick={() => navigate(-1)}>취소</Button>
               {api === "update" ?
                 <Button variant="outlined" onClick={onUpdate}>수정하기</Button> :
                 <Button variant="outlined" onClick={onCreate}>등록하기</Button>
