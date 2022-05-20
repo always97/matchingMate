@@ -32,9 +32,9 @@ const BoardRegister = () => {
     postName: board ? board.postName : '',
     postContents: board ? board.postContents : '',
     categoryId: board ? board.categoryId : '',
-    categoryName : board ? board.categoryName : '',
+    categoryName: board ? board.categoryName : '',
     maxNumberOfPeople: board ? board.maxNumberOfPeople : '',
-    matchingDate: board ? new Date(board.matchingDate) :new Date(),
+    matchingDate: board ? new Date(board.matchingDate) : new Date(),
     matchingTime: board ? board.matchingTime : '00:00',
     place: board ? board.place : '',
     recommendedSkill: board ? board.recommendedSkill : ''
@@ -48,7 +48,6 @@ const BoardRegister = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log("핸들 들어오긴함?");
     console.log(e.target);
 
     const { value, name } = e.target;
@@ -77,8 +76,6 @@ const BoardRegister = () => {
 
     navigate('/');
   }
-
-  console.log("아니 이거 있긴함?", postInfo.maxNumberOfPeople);
 
   return (
     <div className={styles.container}>

@@ -52,18 +52,36 @@ const BoardDetail = () => {
         isLoading === true ? <h2>로딩중입니다 ...</h2> : (
           <div className={styles.container}>
             <section className={styles.header}>
+
               <BsArrowLeft className={styles.backBtn} size="40" onClick={() => navigate(-1)}></BsArrowLeft>
-              <h1>제목 : {board.postName}</h1>
-              <div>
-                <p>작성자 닉네임 : {board.nickname}</p>
-                <p>종목 : {board.categoryName}</p>
-                <p>시간 : {board.matchingTime}</p>
-                <div>
-                  <span>장소 : {board.place}</span>
-                  <Button onClick={() => setModalOpen(true)}>지도 보기</Button>
-                </div>
-                <p>추천 실력 : {board.recommendedSkill}</p>
+              <div className={styles.title}>{board.postName}</div>
+              <div className={styles.userAndDate}>
+                <div className={styles.nickName}>{board.nickname}</div>
+                <div className={styles.registerDate}>{board.registerDatetime}</div>
               </div>
+              <ul className={styles.boardInfo}>
+                <li className={styles.infoBox}>
+                  <span className={styles.infoTitle}>종목</span>
+                  <span className={styles.infoContent}>{board.categoryName}</span>
+                </li>
+                <li className={styles.infoBox}>
+                  <span className={styles.infoTitle}>운동일</span>
+                  <span className={styles.infoContent}>{board.matchingDate}</span>
+                </li>
+                <li className={styles.infoBox}>
+                  <span className={styles.infoTitle}>시작시간</span>
+                  <span className={styles.infoContent}>{board.matchingTime}</span>
+                </li>
+                <li className={styles.infoBox}>
+                  <span className={styles.infoTitle}>장소</span>
+                  <span className={styles.infoContent}>{board.place}</span>
+                  <Button onClick={() => setModalOpen(true)}>지도 보기</Button>
+                </li>
+                <li className={styles.infoBox}>
+                  <span className={styles.infoTitle}>추천 실력</span>
+                  <span className={styles.infoContent}>{board.recommendedSkill}</span>
+                </li>
+              </ul>
             </section>
             <Modal
               isOpen={modalOpen}
@@ -99,8 +117,10 @@ const BoardDetail = () => {
             </Modal>
 
             <div className={styles.contentBox}>
-
-              <p>{board.postContents}</p>
+              <h2 className={styles.contentHeader}>상세내용</h2>
+              <div className={styles.contentWrap}>
+                <p>{board.postContents}</p>
+              </div>
             </div>
             <div className={styles.chatBtnBox}>
               {
