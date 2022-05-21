@@ -9,6 +9,7 @@ import Modal from "react-modal";
 import axios from 'axios';
 import GoogleMap from '../../components/googleMap/googleMap';
 import { axiosDelete } from '../../components/axios/Axios';
+import BoardReport from '../../components/home-board/BoardReport';
 
 const BoardDetail = () => {
 
@@ -21,6 +22,50 @@ const BoardDetail = () => {
   const { categorys } = useLocation().state;
 
   const token = sessionStorage.getItem("jwtToken");
+
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportInfo, setReportInfo] = useState({
+    targetId: id,
+    targetNickname: "기본값",
+    targetMemberNickname: "기본값",
+    reportType: '매칭공고',
+    reportClassify: '',
+    contents: ''
+  });
+
+
+  const handleReport = (e) => {
+    e.preventDefault();
+
+    console.log("신고 보내는 데이터", reportInfo);
+
+    axios.post('http://localhost:8050/report/create', reportInfo, {
+      headers: {
+        'Authorization': "Bearer " + token
+      }
+    }).catch((error) => {
+      if (error.response) {
+        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+      else if (error.request) {
+        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+        // Node.js의 http.ClientRequest 인스턴스입니다.
+        console.log(error.request);
+      }
+      else {
+        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+        console.log('Error', error.message);
+      }
+    });
+    alert("신고 완료되었습니다.");
+    navigate(-1);
+  }
+
+
 
   const boardDelete = () => {
     axiosDelete(`/matchingPost/detail/delete/${id}`);
@@ -35,9 +80,13 @@ const BoardDetail = () => {
       }
     }
     )).data;
-    // const res = await (await axiosGet(`/matchingPost/detail/${id}`)).data;
+    //const res = await (await axiosGet(`matchingPost/detail/${id}`, header)).data; // 이코드하면 에러뜸 
+
     console.log("detail 조회 결과", res);
+    console.log("닉네임 조회 결과", res.data.nickname);
+    setReportInfo({ ...reportInfo, targetMemberNickname: res.data.nickname, targetNickname: res.data.nickname });
     setBoard(res.data);
+
     setisLoading(false);
   };
 
@@ -57,8 +106,49 @@ const BoardDetail = () => {
               <div className={styles.title}>{board.postName}</div>
               <div className={styles.userAndDate}>
                 <div className={styles.nickName}>{board.nickname}</div>
-                <div className={styles.registerDate}>{board.registerDatetime}</div>
+                <div className={styles.registerDate}>
+                  <div>{board.registerDatetime}</div>
+                  {
+                    (!board.myPost) &&
+                    <div><Button variant="outlined" onClick={() => setReportModalOpen(true)}>신고</Button></div>
+                  }
+                </div>
               </div>
+              <Modal
+                isOpen={reportModalOpen}
+                ariaHideApp={false}
+                shouldFocusAfterRender={true}
+                onRequestClose={() => setReportModalOpen(false)}
+                style={{
+                  overlay: {
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(126, 147, 149, 0.83)",
+                  },
+                  content: {
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    border: "1px solid #ccc",
+                    background: "#fff",
+                    overflow: "auto",
+                    WebkitOverflowScrolling: "touch",
+                    borderRadius: "4px",
+                    outline: "none",
+                    padding: "20px",
+                    width: "800px",
+                    height: "800px",
+                  },
+                }}
+              >
+                <BoardReport reportInfo={reportInfo} setReportInfo={setReportInfo} handleReport={handleReport} />
+                <button onClick={() => setModalOpen(false)}>닫기</button>
+                <button onClick={handleReport}>등록</button>
+              </Modal>
               <ul className={styles.boardInfo}>
                 <li className={styles.infoBox}>
                   <span className={styles.infoTitle}>종목</span>
@@ -137,7 +227,7 @@ const BoardDetail = () => {
                     });
                   }}>수정</Button>
 
-                  <Button onClick={boardDelete}>삭제</Button>
+                  <Button onClick={() => boardDelete()}>삭제</Button>
                 </>
               }
               <Link to='/chatting' ><Button>채팅방 참여하기</Button></Link>

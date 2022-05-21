@@ -6,6 +6,9 @@ const BoardPlaceInput = (props) => {
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
+    let jibunAddress = data.jibunAddress;
+
+
     let extraAddress = '';
     if (data.addressType === 'R') {
       if (data.bname !== '') {
@@ -16,8 +19,9 @@ const BoardPlaceInput = (props) => {
       }
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    console.log(fullAddress);
-    setPostInfo({ ...postInfo, place: fullAddress });
+    console.log("이건 기존 주소입니다.", fullAddress);
+    console.log("지번 주소도 잘 나오나요 ?", jibunAddress);
+    setPostInfo({ ...postInfo, place: jibunAddress ? jibunAddress : fullAddress });
     setModalOpen(false);
   }
   // eslint-disable-next-line react/react-in-jsx-scope

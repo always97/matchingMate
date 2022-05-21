@@ -57,6 +57,7 @@ const BoardRegister = () => {
     });
   };
 
+
   const onCreate = (e) => {
     e.preventDefault();
     console.log("넣는데이터", postInfo);
@@ -176,9 +177,11 @@ const BoardRegister = () => {
                 />
               </FormControl>
             </Box>
-            <Button onClick={() => setPostInfo({ ...postInfo, place: liveAddr })}>미정입니다.</Button>
+            <Button onClick={() => setPostInfo({ ...postInfo, place: liveAddr })}>장소 미정이신가요?</Button>
             <Modal
               isOpen={modalOpen}
+              ariaHideApp={false}
+              shouldFocusAfterRender={true}
               onRequestClose={() => setModalOpen(false)}
               style={{
                 overlay: {
