@@ -9,6 +9,7 @@ const BoardPlaceInput = (props) => {
     let jibunAddress = data.jibunAddress;
     let autoJibunAddress = data.autoJibunAddress
 
+    //??????
 
     let extraAddress = '';
     if (data.addressType === 'R') {
