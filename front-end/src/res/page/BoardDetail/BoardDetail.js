@@ -11,6 +11,7 @@ import GoogleMap from '../../components/googleMap/googleMap';
 import { axiosDelete } from '../../components/axios/Axios';
 import BoardReport from '../../components/home-board/BoardReport';
 
+
 const BoardDetail = () => {
 
   const { id } = useParams();
@@ -175,6 +176,8 @@ const BoardDetail = () => {
             </section>
             <Modal
               isOpen={modalOpen}
+              ariaHideApp={false}
+              shouldFocusAfterRender={true}
               onRequestClose={() => setModalOpen(false)}
               style={{
                 overlay: {
@@ -202,7 +205,7 @@ const BoardDetail = () => {
                 },
               }}
             >
-              <GoogleMap />
+              <GoogleMap lat={board.lat} lng={board.lng} />
               <button onClick={() => setModalOpen(false)}>닫기</button>
             </Modal>
 

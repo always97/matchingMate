@@ -4,14 +4,18 @@ import { GoogleApiWrapper, InfoWindow, Map, Marker } from "google-maps-react";
 
 const GoogleMap = (props) => {
 
+  const { lat, lng } = props;
+
+  console.log("위도경도 잘 받나 ? 지도에서 ? ", lat, lng)
+
   const mapStyles = {
     width: '750px',
     height: '750px',
   };
 
   const center = {
-    lat: 36.124,
-    lng: 128.3402
+    lat,
+    lng
   };
 
   return (
@@ -22,7 +26,7 @@ const GoogleMap = (props) => {
         style={mapStyles}
         initialCenter={center}
       >
-        <Marker name="36.124 128.3402" />
+        <Marker name={`${lat} ${lng}`} />
         <InfoWindow>
         </InfoWindow>
       </Map>

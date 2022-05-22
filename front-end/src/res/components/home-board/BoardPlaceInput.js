@@ -7,6 +7,7 @@ const BoardPlaceInput = (props) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let jibunAddress = data.jibunAddress;
+    let autoJibunAddress = data.autoJibunAddress
 
 
     let extraAddress = '';
@@ -19,9 +20,10 @@ const BoardPlaceInput = (props) => {
       }
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    console.log("이건 기존 주소입니다.", fullAddress);
-    console.log("지번 주소도 잘 나오나요 ?", jibunAddress);
-    setPostInfo({ ...postInfo, place: jibunAddress ? jibunAddress : fullAddress });
+    console.log("이건 도로명 주소::::::", fullAddress);
+    console.log("지번 주소는 ?? :::::::", jibunAddress);
+    console.log("예상 지번 주소는 ?? :::::::", autoJibunAddress);
+    setPostInfo({ ...postInfo, place: jibunAddress ? jibunAddress : autoJibunAddress });
     setModalOpen(false);
   }
   // eslint-disable-next-line react/react-in-jsx-scope
