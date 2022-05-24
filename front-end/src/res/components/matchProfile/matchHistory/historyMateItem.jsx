@@ -3,15 +3,19 @@ import InputRating from '../matchRating/InputRating';
 import Modal from "react-modal";
 import { Button } from 'react-bootstrap';
 import styles from './historyMateItem.module.css';
-const HistoryMateItem = () => {
+const HistoryMateItem = (props) => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
+  const {matchingMate} = props;
 
   return (
-    <div>
-      <p>이름 : 홍길동</p>
-      <Button onClick={() => setModalOpen(true)} style={{margin:"0 3px 0 0"}}>평점 남기기</Button>
+    <div className={styles.mateInfo}>
+      <p>이름 : {matchingMate.nickname}</p>
+
+ 
+      <Button disabled={matchingMate.alreadyCompleted} onClick={() => setModalOpen(true)} style={{margin:"0 3px 0 0"}}>평점 남기기</Button>
+      {/* <Button onClick={() => setModalOpen(true)} style={{margin:"0 3px 0 0"}}>평점 남기기</Button> */}
       <Modal
                     isOpen={modalOpen}
                     onRequestClose={() => setModalOpen(false)}
@@ -46,7 +50,7 @@ const HistoryMateItem = () => {
                       <Button onClick={() => setModalOpen(false)} style={{margin:"0 3px 0 0"}}>닫기</Button>
                       <Button >완료</Button>
                     </div>
-                  </Modal>
+        </Modal>
       <Button>신고하기</Button>
     </div>
   );

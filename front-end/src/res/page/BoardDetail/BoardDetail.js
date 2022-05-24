@@ -23,6 +23,7 @@ const BoardDetail = () => {
   const { categorys } = useLocation().state;
 
   const token = sessionStorage.getItem("jwtToken");
+  console.log('token : ', token);
 
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [reportInfo, setReportInfo] = useState({
@@ -147,7 +148,7 @@ const BoardDetail = () => {
                 }}
               >
                 <BoardReport reportInfo={reportInfo} setReportInfo={setReportInfo} handleReport={handleReport} />
-                <button onClick={() => setModalOpen(false)}>닫기</button>
+                <button onClick={() => setReportInfo(false)}>닫기</button>
                 <button onClick={handleReport}>등록</button>
               </Modal>
               <ul className={styles.boardInfo}>

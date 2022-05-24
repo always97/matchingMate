@@ -1,8 +1,10 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
-const BoardPlaceInput = (props) => {
-  const { postInfo, setPostInfo, setModalOpen } = props;
+const CategoryAddrInput = (props) => {
+  const { dataInfo,setDataInfo, setModalOpen , region} = props;
+
+  console.log("카테고리 주소창 입력 지역몇? : ", region);
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -22,7 +24,7 @@ const BoardPlaceInput = (props) => {
     console.log("이건 도로명 주소::::::", fullAddress);
     console.log("지번 주소는 ?? :::::::", jibunAddress);
     console.log("예상 지번 주소는 ?? :::::::", autoJibunAddress);
-    setPostInfo({ ...postInfo, place: jibunAddress ? jibunAddress : autoJibunAddress });
+    setDataInfo({ ...dataInfo, [region]: jibunAddress ? jibunAddress : autoJibunAddress });
     setModalOpen(false);
   }
   // eslint-disable-next-line react/react-in-jsx-scope
@@ -30,4 +32,4 @@ const BoardPlaceInput = (props) => {
 
 };
 
-export default BoardPlaceInput;
+export default CategoryAddrInput;

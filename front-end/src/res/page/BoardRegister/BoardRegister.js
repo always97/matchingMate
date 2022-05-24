@@ -48,7 +48,7 @@ const BoardRegister = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    console.log("e.타겟:", e.target);
 
     const { value, name } = e.target;
     setPostInfo({
