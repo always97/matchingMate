@@ -13,6 +13,8 @@ const Category = () => {
   const [categorys,setCategorys] = useState('');
   const token = "Bearer " + sessionStorage.getItem("jwtToken");
 
+  const [updateCategoryId,setUpdateCategoryId] = useState("");
+  const [inputState,setInputState] = useState("create");
   const [modalOpen, setModalOpen] = useState(false);
 
   const readInterestCategory = async () => {
@@ -49,7 +51,15 @@ const Category = () => {
     <>
       {
         interestCategory === null ? 
-          <NoCategory setModalOpen={setModalOpen} /> : <InCategory  interestCategory={interestCategory} setInterestCategory={setInterestCategory} setModalOpen={setModalOpen}/>
+          <NoCategory setModalOpen={setModalOpen} /> 
+          : 
+          <InCategory  
+            interestCategory={interestCategory} 
+            setInterestCategory={setInterestCategory} 
+            setModalOpen={setModalOpen} 
+            setUpdateCategoryId={setUpdateCategoryId}
+            setInputState={setInputState}
+          />
       }
       <Modal
                 isOpen={modalOpen}
@@ -82,7 +92,14 @@ const Category = () => {
                   },
                 }}
               >
-                <InputCategory categorys={categorys} interestCategory={interestCategory} setInterestCategory={setInterestCategory} setModalOpen={setModalOpen}/>
+                <InputCategory 
+                  categorys={categorys} 
+                  interestCategory={interestCategory} 
+                  setInterestCategory={setInterestCategory} 
+                  setModalOpen={setModalOpen}
+                  updateCategoryId={updateCategoryId}
+                  inputState={inputState}  
+                />
                 <button onClick={() => setModalOpen(false)}>닫기</button>
               </Modal>
       

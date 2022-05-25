@@ -18,11 +18,17 @@ function InputCategory(props) {
 
     const navigate = useNavigate();
     // , interestCategory , setInterestCategory
-    const {categorys,setModalOpen, interestCategory, setInterestCategory } = props;
+    const {categorys,setModalOpen, interestCategory, setInterestCategory , updateCategoryId, inputState  } = props;
     
     const [modalFirst, setModalFirst] = useState(false);
     const [modalSecond, setModalSecond] = useState(false);
     const [modalThird, setModalThird] = useState(false);
+
+    let originData = "";
+    if(inputState === "update") {
+        originData = interestCategory.filter((item) => item.id === updateCategoryId);
+    }
+
 
     console.log("인풋창진입시 기존 관심카테고리 : ", interestCategory);
     
@@ -34,10 +40,10 @@ function InputCategory(props) {
     // }
 
     const [interestData, setInterestData] = useState({
-        categoryId:'',
-        region1:'',
-        region2:'',
-        region3:''
+        categoryId:originData ? originData.categoryId : '',
+        region1:originData ? originData.region1 :'',
+        region2:originData ? originData.region2 :'',
+        region3:originData ? originData.region3 :''
     });
 
 
@@ -59,6 +65,24 @@ function InputCategory(props) {
         setInterestCategory(rsp.data);
 
         navigate('/match');
+    }
+    const updateInterest = async (e) => {
+        e.preventDefault();
+        console.log("수정데이터:",interestData);
+
+        // props.setInterestCategory(interestData);
+
+        let rsp = (await axios.put("http://localhost:8050/profile/interestCategory/update", interestData, {headers:{'Authorization': token}})).data;
+        
+        console.log("--------------------------");
+        console.log("등록시 받은데이터 : ",rsp.data);
+        console.log("--------------------------");
+        setModalOpen(false);
+
+        setInterestCategory(rsp.data);
+
+        navigate('/match');
+
     }
 
     return (
@@ -105,11 +129,10 @@ function InputCategory(props) {
                             backgroundColor: "rgba(126, 147, 149, 0.83)",
                             },
                             content: {
-                            // position: "absolute",
-                            // top: "50%",
-                            // left: "50%",
-                            // transform: "translate(-50%, -50%)",
-                            transform: "scale(0.7)",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
                             border: "1px solid #ccc",
                             background: "#fff",
                             overflow: "auto",
@@ -140,11 +163,10 @@ function InputCategory(props) {
                             backgroundColor: "rgba(126, 147, 149, 0.83)",
                             },
                             content: {
-                            // position: "absolute",
-                            // top: "50%",
-                            // left: "50%",
-                            // transform: "translate(-50%, -50%)",
-                            transform: "scale(0.7)",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
                             border: "1px solid #ccc",
                             background: "#fff",
                             overflow: "auto",
@@ -195,8 +217,11 @@ function InputCategory(props) {
                         <CategoryAddrInput dataInfo={interestData} setDataInfo={setInterestData} setModalOpen={setModalThird} region={"region3"}/>
                         <button onClick={() => setModalThird(false)}>닫기</button>
                     </Modal>
-
-                    <Button onClick={saveInterest} variant="contained">저장</Button>
+                    {
+                        inputState === "create" ? 
+                        <Button onClick={saveInterest} variant="contained">저장</Button>
+                        : <Button onClick={updateInterest} variant="contained">수정</Button>
+                    }
                 </FormControl>
 
                 
