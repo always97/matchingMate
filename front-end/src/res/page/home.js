@@ -24,7 +24,7 @@ function Home() {
     setBoards(res.data);
   };
 
-  // 기본 조회는 최신순 zz
+  // 기본 조회는 최신순 zzzz
 
   const getBoards = async (lat, lng) => {
     const res = await (await axiosGet(`/recent?lat=${lat}&lng=${lng}`)).data;
