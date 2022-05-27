@@ -6,6 +6,7 @@ import HomeCarousel from "../components/home/HomeCarousel";
 import Board from "../components/home-board/HomeBoard";
 import NavToChat from "../components/nav/NavToChat";
 import { axiosGet } from '../components/axios/Axios';
+import axios from 'axios';
 
 
 
@@ -16,7 +17,7 @@ function Home() {
   const [longtitue, setLongitude] = useState("");
   const [categorys, setCategorys] = useState();
 
-
+  const token = sessionStorage.getItem("jwtToken");
 
   const getPopularBoards = async (lat, lng) => {
     const res = await (await axiosGet(`/popular?lat=${lat}&lng=${lng}`)).data;
@@ -71,6 +72,16 @@ function Home() {
     });
   }
 
+  const updateLocation = (addr, token) => {
+    console.log("최근위치 업데이트 시작....");
+    axios.put('http://localhost:8050/location', { location: addr }, {
+      headers: {
+        'Authorization': "Bearer " + token
+      }
+    })
+    console.log("최근위치 업데이트 완료....");
+  }
+
   const getAddr = async (lat, lng) => {
     const geocoder = new kakao.maps.services.Geocoder();
     let coord = new kakao.maps.LatLng(lat, lng);
@@ -93,6 +104,11 @@ function Home() {
 
       setLiveAddr(liveAddress);
       sessionStorage.setItem("liveAddress", liveAddress);
+
+      if (token) {
+        updateLocation(sessionStorage.getItem("liveAddress"), token);
+      }
+
     }
   };
 
