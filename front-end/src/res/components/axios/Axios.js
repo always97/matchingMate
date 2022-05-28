@@ -1,16 +1,29 @@
 import axios from "axios";
 
+// 주석만 풀어서 url 바꾸면됩니다.
+
 // var url = "http://localhost:8080";
 var url = "http://localhost:8050";
 
-export function axiosPost(path, data) {
+// eslint-disable-next-line no-unused-vars
+export function axiosPost(path, data, header) {
   if (url !== "http://localhost:8050") {
     url = "http://localhost:8050" + path;
   } else {
     url += path;
   }
+
   const postResult = axios.post(url, data);
   return postResult;
+}
+
+export function axiosDelete(path, headers) {
+
+  url += path;
+
+
+  const getResult = axios.delete(url, { headers });
+  return getResult;
 }
 
 export function axiosGet(path, headers) {
@@ -24,13 +37,26 @@ export function axiosGet(path, headers) {
   return getResult;
 }
 
-export function axiosDelete(path, headers) {
+export function axiosPut(path, data) {
   if (url !== "http://localhost:8050") {
     url = "http://localhost:8050" + path;
   } else {
     url += path;
   }
 
-  const getResult = axios.delete(url, { headers });
+  const getResult = axios.put(url, data);
   return getResult;
+}
+
+export async function getAdminPosts(url) {
+  const headers = {
+    //서버에 데이터 요청할때 담아보낼 header정보
+    Authorization: `Bearer ${sessionStorage.getItem("jwtToken")}`,
+    RefreshToken: `Bearer ${sessionStorage.getItem("jwtToken")}`,
+  };
+  const res = async () => {
+    return await axiosGet(url, headers);
+  };
+
+  return res();
 }

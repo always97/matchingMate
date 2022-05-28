@@ -27,18 +27,12 @@ function Home() {
   // 기본 조회는 최신순 zzzz
 
   const getBoards = async (lat, lng) => {
-    const res = await (await axiosGet(`/recent?lat=${lat}&lng=${lng}`)).data;
+    const res = await (await axios.get(`http://localhost:8050/recent?lat=${lat}&lng=${lng}`)).data;
+    // const res = await (await axiosGet(`/recent?lat=${lat}&lng=${lng}`)).data;
     console.log("통신데이터", res);
     setBoards(res.data);
   };
 
-  const categoryFilter = (e, category) => {
-    e.preventDefault();
-    const filterData = boards.filter(
-      (board) => board.categoryName === category
-    );
-    setBoards(filterData);
-  };
 
   const getLocation = async () => {
 
@@ -66,7 +60,7 @@ function Home() {
   }
 
   function getCategorys() {
-    axiosGet("/admin/category").then((res) => {
+    axiosGet("/category").then((res) => {
       const data = res.data.data;
       setCategorys(data);
     });
@@ -128,7 +122,9 @@ function Home() {
       <NavToChat></NavToChat>
       <Nav></Nav>
       <HomeHeader></HomeHeader>
-      <HomeCarousel categoryFilter={categoryFilter}></HomeCarousel>
+      <HomeCarousel
+        categorys={categorys}
+      ></HomeCarousel>
       <Board
         boards={boards}
         getPopularBoards={getPopularBoards}

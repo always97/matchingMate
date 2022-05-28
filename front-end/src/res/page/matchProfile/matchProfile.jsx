@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-//import { axiosGet } from '../../components/axios/Axios';
 import MatchMain from '../../components/matchProfile/matchMain/matchMain';
+//import { axiosGet } from '../../components/axios/Axios';
+
 import MatchProfileNav from '../../components/matchProfile/matchProfileNav/matchProfileNav';
 import UserProfile from '../../components/userProfile/userProfile';
 import styles from './matchProfile.module.css';
