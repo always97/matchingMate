@@ -234,7 +234,7 @@ const BoardDetail = () => {
                   <Button onClick={() => boardDelete()}>삭제</Button>
                 </>
               }
-              <Link to='/chatting' ><Button>채팅방 참여하기</Button></Link>
+              <Link to='/chat' ><Button>채팅방 참여하기</Button></Link>
             </div>
           </div>
         )
